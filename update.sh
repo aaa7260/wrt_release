@@ -821,6 +821,21 @@ update_diskman() {
     fi
 }
 
+
+# 修复 samba4-libs 缺失 libcrypt.so.1 问题
+fix_samba4() {
+ echo "[Fix] samba4-libs 缺失 libxcrypt 依赖"
+
+ SAMBA_MK="$BUILD_DIR/feeds/packages/net/samba4/Makefile"
+
+ if grep -q "^DEPENDS.*libxcrypt" $SAMBA_MK; then
+    echo "libxcrypt 已在依赖中，跳过"
+ else
+    sed -i '/^DEPENDS:=/ s|$| +libxcrypt|' $SAMBA_MK
+    echo "已添加 libxcrypt 到 samba4 Makefile 依赖"
+ fi
+ 」
+
 main() {
     clone_repo
     clean_up
@@ -864,6 +879,7 @@ main() {
     fix_rust_compile_error
     update_smartdns_luci
     update_diskman
+    fix_samba4
     install_feeds
     support_fw4_adg
     update_script_priority
