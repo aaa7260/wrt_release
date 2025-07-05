@@ -44,7 +44,7 @@ fi
 # 修复 samba4-libs 缺失 libcrypt.so.1 问题
 echo "[Fix] samba4-libs 缺失 libxcrypt 依赖"
 
-SAMBA_MK="feeds/packages/net/samba4/Makefile"
+SAMBA_MK="$BUILD_DIR/feeds/packages/net/samba4/Makefile"
 
 if grep -q "^DEPENDS.*libxcrypt" $SAMBA_MK; then
     echo "libxcrypt 已在依赖中，跳过"
