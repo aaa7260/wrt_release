@@ -40,3 +40,15 @@ PROJECT_MIRRORS_FILE="$BUILD_DIR/scripts/projectsmirrors.json"
 if [ -f "$PROJECT_MIRRORS_FILE" ]; then
     sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
 fi
+
+# 修复 samba4-libs 缺失 libcrypt.so.1 问题
+echo "[Fix] samba4-libs 缺失 libxcrypt 依赖"
+
+SAMBA_MK="feeds/packages/net/samba4/Makefile"
+
+if grep -q "^DEPENDS.*libxcrypt" $SAMBA_MK; then
+    echo "libxcrypt 已在依赖中，跳过"
+else
+    sed -i '/^DEPENDS:=/ s|$| +libxcrypt|' $SAMBA_MK
+    echo "已添加 libxcrypt 到 samba4 Makefile 依赖"
+fi
