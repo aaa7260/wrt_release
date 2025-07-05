@@ -834,7 +834,7 @@ fix_samba4() {
     sed -i '/^DEPENDS:=/ s|$| +libxcrypt|' $SAMBA_MK
     echo "已添加 libxcrypt 到 samba4 Makefile 依赖"
  fi
- 」
+ }
 
 main() {
     clone_repo
